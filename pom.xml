@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.hakobera</groupId>
+	<artifactId>jsKinect</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>jsKinect</name>
+
+	<dependencies>
+		<dependency>
+    		<groupId>rhino</groupId>
+    		<artifactId>js</artifactId>
+    		<version>1.7R2</version>
+		</dependency>
+		<dependency>
+			<groupId>processing</groupId>
+			<artifactId>core</artifactId>
+			<version>1.2.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/repo/processing/core.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>processing</groupId>
+			<artifactId>ecj</artifactId>
+			<version>1.2.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/repo/processing/ecj.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>openkinect</groupId>
+			<artifactId>openkinect</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/repo/processing/openkinect.jar</systemPath>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+		    <plugin>
+		    	<artifactId>maven-compiler-plugin</artifactId>
+		    	<version>2.3.2</version>
+		    	<configuration>
+		        	<encoding>utf-8</encoding>
+		        	<source>1.6</source>
+		        	<target>1.6</target>
+		        </configuration>
+		    </plugin>
+		</plugins>
+	</build>
+
+</project>
