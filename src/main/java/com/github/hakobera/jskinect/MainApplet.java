@@ -11,6 +11,8 @@ public class MainApplet extends PApplet {
 	private Kinect kinect;
 
 	private KinectTracker tracker;
+	
+	private long count = 0;
 
 	@Override
 	public void setup() {
@@ -25,6 +27,7 @@ public class MainApplet extends PApplet {
 
 	@Override
 	public void draw() {
+		System.out.println("update " + ++count);
 		tracker.track();
 		tracker.display();
 		

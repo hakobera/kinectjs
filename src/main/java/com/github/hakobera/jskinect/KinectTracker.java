@@ -42,10 +42,9 @@ public class KinectTracker {
 	    this.kinect = kinect;
 	    
 		kinect.start();
-	    kinect.enableRGB(true);
+	    kinect.enableRGB(false);
 	    kinect.enableDepth(true);
-
-	    kinect.processDepthImage(false);
+	    kinect.processDepthImage(true);
 
 	    display = processing.createImage(KW, KH, PConstants.RGB);
 
@@ -94,7 +93,7 @@ public class KinectTracker {
 	}
 	  
 	public void display() {
-		PImage img = kinect.getVideoImage();
+		PImage img = kinect.getDepthImage();
 	    if (depth == null || img == null) {
 	    	return;
 	    }

@@ -1,15 +1,11 @@
 package com.github.hakobera.jskinect.runner;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import javax.security.auth.callback.LanguageCallback;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
@@ -42,7 +38,7 @@ public class JsRunner extends ScriptableObject {
 		
 		try {
 			// globalContext.setLanguageVersion(170);
-			String[] names = { "print", "load" };
+			String[] names = { "print", "require" };
 			defineFunctionProperties(names, JsRunner.class, ScriptableObject.DONTENUM);
 			
 			String app = "app.js";
@@ -98,11 +94,13 @@ public class JsRunner extends ScriptableObject {
 	 * @param args
 	 * @param func
 	 */
-	public static void load(Context context, Scriptable thisObj, Object[] args, Function func) {
+	public static Object require(Context context, Scriptable thisObj, Object[] args, Function func) {
 		JsRunner runner = (JsRunner) getTopLevelScope(thisObj);
+		Object ret = null;
 		for (int i = 0; i < args.length; ++i) {
-			runner.processScript(context, Context.toString(args[i]));
+			ret = runner.processScript(context, Context.toString(args[i]));
 		}
+		return ret;
 	}
 	
 	/**
@@ -111,17 +109,17 @@ public class JsRunner extends ScriptableObject {
 	 * @param context コンテキスト
 	 * @param filename ファイル名
 	 */
-	protected void processScript(Context context, String filename) {
+	protected Object processScript(Context context, String filename) {
 		Reader in = null;
 		try {
 			in = new InputStreamReader(JsRunnerUtil.getResourceAsStream(filename));
 		} catch (IOException e) {
 			Context.reportError(String.format("Couldn't open resource: '%s'.", filename));
-			return;
+			return null;
 		}
 		
 		try {
-			context.evaluateReader(topLevelScope, in, filename, 1, null);
+			return context.evaluateReader(topLevelScope, in, filename, 1, null);
 		} catch (WrappedException we) {
 			JsRunnerUtil.printStackTrace(we.getWrappedException());
 		} catch (Exception e) {
@@ -134,6 +132,7 @@ public class JsRunner extends ScriptableObject {
 			}
 		}
 		
+		return null;
 	}
 	
 }
