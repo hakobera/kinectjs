@@ -19,14 +19,14 @@ var defaultConf = {
  *
  * @constant
  */
-var WIDTH = 640;
+var WIDTH = 640 | 0;
 
 /**
 * Kinect から入力される画像データの縦の解像度(px)
 *
 * @constant
 */
-var HEIGHT = 480;
+var HEIGHT = 480 | 0;
 
 /**
  * Kinect 操作オブジェクトを Processing と接続します。

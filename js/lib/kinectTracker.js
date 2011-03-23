@@ -104,8 +104,8 @@ exports = {
     bind: function(processing, kinect) {
         _processing = processing;
         _kinect = kinect;
-        _width = kinect.width();
-        _height = kinect.height();
+        _width = kinect.width() | 0;
+        _height = kinect.height() | 0;
         _display = _processing.createImage(_width, _height, Packages.processing.core.PConstants.RGB);
         _location = new PVector(0, 0);
         _lerpedLocation = new PVector(0, 0);
@@ -114,36 +114,48 @@ exports = {
     /**
      * しきい値内の手の位置をトラッキングします。
      */
-    track: function() {
-        var img = _kinect.getVideoImage(),
+    track: function(render) {
+        var img = _kinect.getDepthImage(),
             sumX = 0,
             sumY = 0,
             count = 0,
             detectColor = _processing.color(150, 50, 50),
-            x, y, yOffset, offset, rawDepth, pix;
+            x, y, yOffset, offset, rawDepth, pt, src, dest, c;
 
         _depth = _kinect.getRawDepth();
 
-        _display.loadPixels();
-        for (y = 0; y < _height; y+=1) {
+        if (render) {
+	        _display.loadPixels();
+	        src = img.pixels;
+	        dest = _display.pixels;
+        }
+	    for (y = 0; y < _height; y+=1) {
             yOffset = y * _width;
             for (x = 0; x < _width; x+=1) {
-                offset = (_width - x - 1) + yOffset; // 左右反転を元に戻す
+                offset = (_width - x - 1) + yOffset | 0; // 左右反転を元に戻す
                 rawDepth = _depth[offset];
-                pix = x + yOffset;
+                pt = x + yOffset;
                 if (isInRange(rawDepth)) {
                     sumX += x;
                     sumY += y;
                     count += 1;
-                    _display.pixels[pix] = detectColor;
-                } else {
-                    _display.pixels[pix] = img.pixels[offset];
+                }
+                
+                if (render) {
+                    if (isInRange(rawDepth)) {
+                        c = detectColor;
+                    } else {
+                        c = src[offset];
+                    }
+                	dest[pt] = c;
                 }
             }
         }
-        _display.updatePixels();
-        _processing.image(_display, 0, 0);
-
+	    if (render) {
+	        _display.updatePixels();
+	        _processing.image(_display, 0, 0);
+	    }
+	    
         if (count !== 0) {
             _location.x = sumX / count;
             _location.y = sumY / count;

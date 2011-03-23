@@ -1,5 +1,8 @@
 package com.github.hakobera.kinectjs;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 
 import org.mozilla.javascript.Context;
@@ -49,10 +52,17 @@ public class KinectJS {
 	public void run(String mainScriptPath) {
 		try {
 			NativeJavaObject javaObj = (NativeJavaObject) ScriptUtil.evalScript(cx, globalScope, mainScriptPath);
-			PApplet applet = (PApplet) javaObj.unwrap();
+			final PApplet applet = (PApplet) javaObj.unwrap();
 			JFrame frame = new ProcessingWrapper(applet);
 			frame.pack();
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent event) {
+					applet.stop();
+					System.exit(0);
+				}
+			});
 			frame.setVisible(true);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
