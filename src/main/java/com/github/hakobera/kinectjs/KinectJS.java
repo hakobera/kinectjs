@@ -1,8 +1,13 @@
 package com.github.hakobera.kinectjs;
 
+import javax.swing.JFrame;
+
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.ScriptableObject;
+
+import processing.core.PApplet;
 
 /**
  * openkinect.js の Javascript 簡易ラッパー
@@ -43,7 +48,12 @@ public class KinectJS {
 	
 	public void run(String mainScriptPath) {
 		try {
-			ScriptUtil.evalScript(cx, globalScope, mainScriptPath);
+			NativeJavaObject javaObj = (NativeJavaObject) ScriptUtil.evalScript(cx, globalScope, mainScriptPath);
+			PApplet applet = (PApplet) javaObj.unwrap();
+			JFrame frame = new ProcessingWrapper(applet);
+			frame.pack();
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setVisible(true);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {

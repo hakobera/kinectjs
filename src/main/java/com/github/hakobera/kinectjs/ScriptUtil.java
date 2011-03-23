@@ -21,7 +21,11 @@ public class ScriptUtil {
 	 * @throws Exception エラーが発生した場合
 	 */
 	public static Object evalScript(Context cx, Scriptable scope, String path) throws Exception {
-		Reader script = new FileReader(new File(path)); 
+		File f = new File(path);
+		if (!f.exists()) {
+			f = new File("js/lib/" + path);
+		}
+		Reader script = new FileReader(f);
 		Object ret = cx.evaluateReader(scope, script, path, 1, null);
 		return ret;
 	}
