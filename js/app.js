@@ -1,13 +1,39 @@
-new JavaAdapter(Packages.processing.core.PApplet, {
+var processing = require('processing');
+var kinect = require('kinect');
+var tracker = require('kinectTracker');
+
+var trackPoint;
+
+processing.run({
 	
 	setup: function() {
-		this.size(640, 480);
-		this.background(204);
-		this.frameRate(10);
+        this.size(kinect.width(), kinect.height());
+        this.background(204);
+        this.frameRate(5);
+
+        kinect.init({
+            processing: this,
+            enableDepth: true,
+            enableIR: false,
+            enableRGB: true,
+            processDepthImage: false
+        });
+
+        tracker.bind(this, kinect);
 	},
 	
 	draw: function() {
-		this.ellipse(10, 10, 20, 20);
-	}
-	
+        tracker.track();
+        trackPoint = tracker.getPos();
+		this.ellipse(trackPoint.x, trackPoint.y, 10, 10);
+	},
+
+    keyPressed: function() {
+        var keyCode = this.keyCode;
+        if (keyCode === 81) {
+            kinect.stop();
+            this.stop();
+        }
+    }
+
 });

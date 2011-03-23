@@ -3,6 +3,7 @@ package com.github.hakobera.jskinect;
 import org.openkinect.processing.Kinect;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PVector;
 
 public class MainApplet extends PApplet {

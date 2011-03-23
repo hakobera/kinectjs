@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 
 public class ScriptUtil {
@@ -26,7 +27,8 @@ public class ScriptUtil {
 			f = new File("js/lib/" + path);
 		}
 		Reader script = new FileReader(f);
-		Object ret = cx.evaluateReader(scope, script, path, 1, null);
+		Script s = cx.compileReader(script, path, 1, null);
+		Object ret = s.exec(cx, scope);
 		return ret;
 	}
 
@@ -47,7 +49,5 @@ public class ScriptUtil {
 		||	o instanceof BigDecimal
 		||	o instanceof BigInteger;
 	}
-	
-	
 	
 }
