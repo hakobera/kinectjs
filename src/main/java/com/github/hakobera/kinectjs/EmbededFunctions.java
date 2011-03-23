@@ -1,9 +1,5 @@
 package com.github.hakobera.kinectjs;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
@@ -17,21 +13,6 @@ import org.mozilla.javascript.ScriptableObject;
 public final class EmbededFunctions {
 
 	private EmbededFunctions() {
-	}
-	
-	/**
-	 * スクリプトファイルを指定したコンテキスト、指定したスコープ内で評価します。
-	 * 
-	 * @param cx　コンテキスト
-	 * @param scope 評価スコープ
-	 * @param path スクリプトファイルへのパス
-	 * @return スクリプトの評価結果
-	 * @throws Exception エラーが発生した場合
-	 */
-	public static Object evalScript(Context cx, Scriptable scope, String path) throws Exception {
-		Reader script = new FileReader(new File(path)); 
-		Object ret = cx.evaluateReader(scope, script, path, 1, null);
-		return ret;
 	}
 
 	/**
@@ -73,7 +54,7 @@ public final class EmbededFunctions {
 		String moduleId = (String) args[0];
 		String path = moduleId.concat(".js");
 		try {
-			evalScript(cx, moduleScope, path);
+			ScriptUtil.evalScript(cx, moduleScope, path);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

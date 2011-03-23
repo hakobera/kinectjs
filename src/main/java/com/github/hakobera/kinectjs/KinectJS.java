@@ -37,11 +37,13 @@ public class KinectJS {
 	private void defineGlobalFunctions() {
 		String[] embededFuncNames = { "print", "require" };
 		globalScope.defineFunctionProperties(embededFuncNames, EmbededFunctions.class, ScriptableObject.DONTENUM);
+		
+		globalScope.defineProperty("console", new Console(), ScriptableObject.DONTENUM);
 	}
 	
 	public void run(String mainScriptPath) {
 		try {
-			EmbededFunctions.evalScript(cx, globalScope, mainScriptPath);
+			ScriptUtil.evalScript(cx, globalScope, mainScriptPath);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {

@@ -37,6 +37,13 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/repo/processing/openkinect.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>jsonic</groupId>
+			<artifactId>jsonic</artifactId>
+			<version>1.2.5</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/repo/jsonic-1.2.5.jar</systemPath>
+		</dependency>
 	</dependencies>
 	
 	<build>

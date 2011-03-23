@@ -1,5 +1,4 @@
-var a = 1,
-	b = 2;
-
-var calc = require('js/calc');
-print(calc.add(a, b));
+var a = 1;
+console.log('ab %s cd');
+console.log({a:'b'});
+console.log(1);
