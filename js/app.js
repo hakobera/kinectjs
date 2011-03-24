@@ -21,16 +21,12 @@ processing.run({
             enableRGB: false,
             processDepthImage: true
         });
-
         tracker.bind(this, kinect);
-        
         client = netClient.connect(this, "127.0.0.1", 9999);
-        
         console.log('setup finished.')
 	},
 	
 	draw: function() {
-        this.background(204);
         tracker.track(render);
         trackPoint = tracker.getPos();
 		this.ellipse(trackPoint.x, trackPoint.y, 10, 10);
