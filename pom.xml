@@ -31,6 +31,13 @@
 			<systemPath>${basedir}/repo/processing/ecj.jar</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>processing</groupId>
+			<artifactId>net</artifactId>
+			<version>1.2.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/repo/processing/net.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>openkinect</groupId>
 			<artifactId>openkinect</artifactId>
 			<version>1.0</version>

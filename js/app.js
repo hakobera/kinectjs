@@ -1,9 +1,11 @@
 var processing = require('processing');
 var kinect = require('kinect');
 var tracker = require('kinectTracker');
+var netClient = require('netClient');
 
-var trackPoint;
-var render = false;
+var trackPoint,
+	render = false,
+	client;
 
 processing.run({
 	
@@ -22,6 +24,8 @@ processing.run({
 
         tracker.bind(this, kinect);
         
+        client = netClient.connect(this, "127.0.0.1", 9999);
+        
         console.log('setup finished.')
 	},
 	
@@ -30,6 +34,10 @@ processing.run({
         tracker.track(render);
         trackPoint = tracker.getPos();
 		this.ellipse(trackPoint.x, trackPoint.y, 10, 10);
+		
+		if (client.active) {
+			client.write(trackPoint.x + "," + trackPoint.y);
+		}
 	},
 
     keyPressed: function() {
